@@ -2,16 +2,15 @@
 
 #include <print>
 
+using bfloat::bfloat16;
+
 int main() {
-  const bfloat::bfloat16 x(-6.9f);
+  bfloat16 x = 7.75f;
+  bfloat16 y = 0.5f;
 
-  // 11000000110111001100110011001101
-  // 1100000011011100
+  bfloat16 z = bfloat16::add(x, y);
 
-  auto f = static_cast<float>(x);
-
-  std::println("{}", x.get_bit_string());
-
-  std::println("{}", f);
-
+  std::println("{} <- x", static_cast<float>(x));
+  std::println("{} <- y", static_cast<float>(y));
+  std::println("{} <- z", static_cast<float>(z));
 }
