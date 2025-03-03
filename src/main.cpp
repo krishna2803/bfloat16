@@ -5,8 +5,8 @@
 using bfloat::bfloat16;
 
 int main() {
-  bfloat16 x = 7.75f;
-  bfloat16 y = 0.5f;
+  bfloat16 x(7.75f);
+  bfloat16 y(-0.25f);
 
   bfloat16 z = bfloat16::add(x, y);
 

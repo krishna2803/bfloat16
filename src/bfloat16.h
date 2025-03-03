@@ -95,10 +95,10 @@ public:
   }
 
   bfloat16 &shift_left(unsigned shift_width);
-
   bfloat16 &shift_right(unsigned shift_width);
 
   static auto add(const bfloat16 &a, const bfloat16 &b) -> bfloat16;
+  static auto sub(const bfloat16 &a, bfloat16 b) -> bfloat16;
 
   [[nodiscard]]
   auto get_val() const -> u16;
@@ -107,6 +107,9 @@ public:
   auto get_bit_string() const -> std::string;
 
   explicit operator float() const;
+  [[nodiscard]] auto count_leading_zeros_mantissa() const -> unsigned;
+
+  auto operator-() -> bfloat16;
 };
 
 } // namespace bfloat

@@ -6,17 +6,17 @@
 
 namespace bfloat {
 bfloat16::bfloat16(const float f) {
-  const union ieee754 {
+  const union {
     const float f;
     const u32 u;
-  } ieee754_rep{f};
+  } ieee754f{.f = f};
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-  _value = ieee754_rep.u >> 16;
+  _value = ieee754f.u >> 16;
 #endif // little endian
 
 #if __BYTE_ORDER == __BIG_ENDIAN
-  value = __builtin_bswap16(ieee754_rep.u >> 16);
+  value = __builtin_bswap32(ieee754f.u) >> 16;
 #endif // big endian
 }
 
@@ -50,6 +50,10 @@ unsigned bfloat16::count_leading_zeros_mantissa() const {
 
   // same as 8 bit but subtract 1 from the result
   return zero_bits >= 1 ? zero_bits - 1 : 0;
+}
+bfloat16 bfloat16::operator-() {
+  _value ^= SIGN_MASK;
+  return *this;
 }
 bfloat16 &bfloat16::shift_left(const unsigned shift_width) {
   if (shift_width >= 7) {
@@ -106,7 +110,24 @@ auto bfloat16::add(const bfloat16 &a, const bfloat16 &b) -> bfloat16 {
     return result;
   }
 
+  if (a_m == b_m && a.sign() == b.sign()) {
+    return result;
+  }
+
+  if (a_m >= b_m) {
+    result.sign(a.sign());
+    result.exponent(a.exponent());
+    result.mantissa(a_m - b_m);
+  } else {
+    result.sign(b.sign());
+    result.exponent(b.exponent());
+    result.mantissa(b_m - a_m);
+  }
+
   return result;
+}
+auto bfloat16::sub(const bfloat16 &a, bfloat16 b) -> bfloat16 {
+  return add(a, -b);
 }
 
 } // namespace bfloat
