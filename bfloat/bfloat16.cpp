@@ -114,7 +114,7 @@ auto bfloat16::add(const bfloat16 &a, const bfloat16 &b) -> bfloat16 {
     result.sign(a.sign());
     u8 sum_m;
     result.exponent(__builtin_add_overflow(a_m, b_m, &sum_m) ? exp + 1 : exp);
-    result.mantissa(sum_m);
+    result.mantissa(sum_m & 0x80);
     return result;
   }
 
@@ -134,6 +134,7 @@ auto bfloat16::add(const bfloat16 &a, const bfloat16 &b) -> bfloat16 {
 
   return result;
 }
+
 auto bfloat16::sub(const bfloat16 &a, bfloat16 b) -> bfloat16 {
   return add(a, -b);
 }
@@ -145,5 +146,8 @@ bfloat16 operator+(bfloat16 lhs, const bfloat16 &rhs) {
 bfloat16 operator-(bfloat16 lhs, const bfloat16 &rhs) {
   lhs -= rhs;
   return lhs;
+}
+auto operator==(const bfloat16 &lhs, const bfloat16 &rhs) -> bool {
+  return lhs.get_val() == rhs.get_val();
 }
 } // namespace bfloat
