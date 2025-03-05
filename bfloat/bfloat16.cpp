@@ -55,6 +55,14 @@ bfloat16 bfloat16::operator-() {
   _value ^= SIGN_MASK;
   return *this;
 }
+auto bfloat16::operator+=(const bfloat16 &that) -> bfloat16 & {
+  add(*this, that);
+  return *this;
+}
+auto bfloat16::operator-=(const bfloat16 &that) -> bfloat16 & {
+  sub(*this, that);
+  return *this;
+}
 bfloat16 &bfloat16::shift_left(const unsigned shift_width) {
   if (shift_width >= 7) {
     exponent(0);
@@ -130,4 +138,12 @@ auto bfloat16::sub(const bfloat16 &a, bfloat16 b) -> bfloat16 {
   return add(a, -b);
 }
 
+bfloat16 operator+(bfloat16 lhs, const bfloat16 &rhs) {
+  lhs += rhs;
+  return lhs;
+}
+bfloat16 operator-(bfloat16 lhs, const bfloat16 &rhs) {
+  lhs -= rhs;
+  return lhs;
+}
 } // namespace bfloat

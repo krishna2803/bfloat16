@@ -110,6 +110,14 @@ public:
   [[nodiscard]] auto count_leading_zeros_mantissa() const -> unsigned;
 
   auto operator-() -> bfloat16;
+
+  auto operator+=(const bfloat16 &that) -> bfloat16 &;
+
+  auto operator-=(const bfloat16 &that) -> bfloat16 &;
+
+  friend auto operator+(bfloat16 lhs, const bfloat16 &rhs) -> bfloat16;
+
+  friend auto operator-(bfloat16 lhs, const bfloat16 &rhs) -> bfloat16;
 };
 
 } // namespace bfloat
