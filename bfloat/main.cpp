@@ -5,12 +5,10 @@
 using bfloat::bfloat16;
 
 int main() {
-  bfloat16 x(7.75f);
-  bfloat16 y(-0.25f);
+  const bfloat16 x(7.75f);
+  const bfloat16 y(-0.25f);
 
-  // bfloat16 z = bfloat16::add(x,y);
-  // bfloat16 z = x;
-  auto z = x + y;
+  const auto z = bfloat16::add(x, y);
 
   std::println("{} <- x", static_cast<float>(x));
   std::println("{} <- y", static_cast<float>(y));
