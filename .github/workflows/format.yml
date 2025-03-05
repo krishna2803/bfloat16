@@ -1,0 +1,27 @@
+name: Clang-Format Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run:
+    runs-on: debian-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install clang-format
+      run: |
+        sudo apt update
+        sudo apt install -y clang-format
+
+    - name: Check Code Formatting
+      run: |
+        FILES_TO_CHECK=$(find . -name '*.cpp' -o -name '*.hpp' -o -name '*.cc' -o -name '*.hh')
+        
+        for file in $FILES_TO_CHECK; do
+          clang-format --dry-run --Werror $file
+        done
