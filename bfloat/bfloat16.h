@@ -18,6 +18,8 @@ using u64 = uint16_t;
 
 class bfloat16 {
 private:
+  u16 _value;
+
   explicit constexpr bfloat16(const u16 u = 0) { this->_value = u; }
 
   explicit constexpr bfloat16(const u32 u = 0)
@@ -43,8 +45,6 @@ private:
 #endif                             // big endian
 
 public:
-  u16 _value;
-
   bfloat16(const bfloat16 &) = default;
   bfloat16 &operator=(const bfloat16 &) = default;
   bfloat16(float f = 0.0f);
@@ -118,6 +118,8 @@ public:
   friend auto operator+(bfloat16 lhs, const bfloat16 &rhs) -> bfloat16;
 
   friend auto operator-(bfloat16 lhs, const bfloat16 &rhs) -> bfloat16;
+
+  friend auto operator==(const bfloat16 &lhs, const bfloat16 &rhs) -> bool;
 };
 
 } // namespace bfloat
