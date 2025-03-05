@@ -8,15 +8,14 @@ on:
 
 jobs:
   run:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     
     - name: Install clang-format
       run: |
-        sudo apt update
-        sudo apt install -y clang-format
+        sudo apt update && sudo apt install -y clang-format
 
     - name: Check Code Formatting
       run: |
